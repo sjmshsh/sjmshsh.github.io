@@ -10,12 +10,15 @@ import { SITE_TITLE } from '../consts';
 <!doctype html>
 <html lang="zh-CN">
 	<head>
-		<BaseHead title={`关于 · ${SITE_TITLE}`} description="关于 Sunny 的技术笔记。" />
+		<BaseHead
+			title={`关于 · ${SITE_TITLE}`}
+			description="关于 sjmshsh：关注 AI 基础设施、云原生、GPU 调度与大模型推理。"
+		/>
 	</head>
 	<body>
 		<Header />
 		<main class="about">
-			<div class="about-copy">
+			<section class="about-copy">
 				<p class="eyebrow">ABOUT</p>
 				<h1>关于这里</h1>
 				<p>
@@ -24,8 +27,32 @@ import { SITE_TITLE } from '../consts';
 				<p>
 					内容会以 AI 基础设施和工程实践为主，也会保留一些关于学习、工具与效率的思考。
 				</p>
-				<a href="/blog">开始阅读 →</a>
-			</div>
+
+				<h2>关于我</h2>
+				<p>
+					你好，我是 sjmshsh。我主要关注云原生、GPU 调度、大模型后训练，以及多模态模型的推理部署与性能优化。
+				</p>
+				<p>
+					我是 Apache Dubbo Committer，也是 dubbo-kubernetes 的发起者和主要维护者，目前正在推进跨集群能力与 LLM 相关改造。
+				</p>
+
+				<h2>经历与开源</h2>
+				<ul>
+					<li>在快手实习期间参与 Kubernetes GPU 调度器开发。</li>
+					<li>在腾讯积累了 Agent 与大模型后训练相关经验。</li>
+					<li>从 0 到 1 参与千卡异构芯片集群上的多模态模型推理部署与加速。</li>
+					<li>持续参与 vLLM、SGLang、SGLang-Omni、cuLA、AReaL 等开源项目。</li>
+				</ul>
+
+				<h2>当前关注</h2>
+				<p>
+					我正在继续学习 vLLM、RL Infra 与强化学习算法，同时关注 KV Cache、长序列推理和大规模推理系统优化。
+				</p>
+				<div class="actions">
+					<a href="/blog">开始阅读 →</a>
+					<a href="https://github.com/sjmshsh" target="_blank" rel="noreferrer">GitHub →</a>
+				</div>
+			</section>
 			<Image src={AboutHeroImage} width={960} height={480} alt="带有渐变边框的微笑图形" />
 		</main>
 		<Footer />
@@ -36,11 +63,11 @@ import { SITE_TITLE } from '../consts';
 	.about {
 		display: grid;
 		grid-template-columns: 1fr 0.95fr;
-		align-items: center;
+		align-items: start;
 		gap: clamp(2rem, 6vw, 6rem);
 		width: min(1120px, calc(100% - 2rem));
 		max-width: none;
-		min-height: 70vh;
+		padding-block: 5rem;
 	}
 	.eyebrow {
 		margin: 0;
@@ -58,19 +85,44 @@ import { SITE_TITLE } from '../consts';
 		color: rgb(var(--gray-dark));
 		font-size: 1.05rem;
 	}
-	.about-copy a {
+	.about-copy h2 {
+		margin-top: 2.5rem;
+		font-size: 1.4rem;
+		letter-spacing: -0.025em;
+	}
+	.about-copy ul {
+		margin: 0;
+		padding-left: 1.25rem;
+	}
+	.about-copy li {
+		margin-bottom: 0.65rem;
+		color: rgb(var(--gray-dark));
+	}
+	.actions {
+		display: flex;
+		flex-wrap: wrap;
+		gap: 1.25rem;
+		margin-top: 2rem;
+	}
+	.actions a {
 		display: inline-block;
-		margin-top: 1rem;
 		font-weight: 700;
 		text-decoration: none;
 	}
 	.about :global(img) {
+		position: sticky;
+		top: 7rem;
+		margin-top: 2rem;
 		box-shadow: var(--box-shadow);
 	}
 	@media (max-width: 760px) {
 		.about {
 			grid-template-columns: 1fr;
-			padding-top: 3rem;
+			padding-block: 3rem;
+		}
+		.about :global(img) {
+			position: static;
+			margin-top: 0;
 		}
 	}
 </style>
