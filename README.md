@@ -1,6 +1,8 @@
-# Sunny 的技术笔记
+# sjmshsh 的技术笔记
 
 使用 Astro 构建、通过 GitHub Pages 发布的个人技术博客。
+
+网站地址：<https://sjmshsh.github.io>
 
 ## 本地运行
 
