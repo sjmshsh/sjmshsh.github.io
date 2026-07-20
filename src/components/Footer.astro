@@ -1,0 +1,52 @@
+---
+const today = new Date();
+---
+
+<footer>
+	<div>
+		<p>持续学习，认真记录。</p>
+		<small>&copy; {today.getFullYear()} Sunny · Built with Astro and GitHub Pages.</small>
+	</div>
+	<div class="footer-links">
+		<a href="https://github.com/sjmshsh" target="_blank" rel="noreferrer">GitHub</a>
+		<a href="/rss.xml">RSS</a>
+	</div>
+</footer>
+
+<style>
+	footer {
+		display: flex;
+		align-items: end;
+		justify-content: space-between;
+		width: min(1120px, calc(100% - 2rem));
+		margin: 3rem auto 0;
+		padding: 2.5rem 0 4rem;
+		border-top: 1px solid rgb(var(--gray-light));
+		color: rgb(var(--gray));
+	}
+	footer p {
+		margin: 0 0 0.2rem;
+		color: rgb(var(--gray-dark));
+		font-size: 0.95rem;
+		font-weight: 700;
+	}
+	footer small {
+		font-size: 0.78rem;
+	}
+	.footer-links {
+		display: flex;
+		gap: 1rem;
+	}
+	.footer-links a {
+		font-size: 0.85rem;
+		font-weight: 700;
+		text-decoration: none;
+	}
+	@media (max-width: 540px) {
+		footer {
+			align-items: start;
+			flex-direction: column;
+			gap: 1.2rem;
+		}
+	}
+</style>

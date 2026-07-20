@@ -1,0 +1,163 @@
+---
+import { Image } from 'astro:assets';
+import type { CollectionEntry } from 'astro:content';
+import BaseHead from '../components/BaseHead.astro';
+import Footer from '../components/Footer.astro';
+import FormattedDate from '../components/FormattedDate.astro';
+import Header from '../components/Header.astro';
+
+type Props = CollectionEntry<'blog'>['data'];
+
+const { title, description, pubDate, updatedDate, heroImage } = Astro.props;
+---
+
+<html lang="zh-CN">
+	<head>
+		<BaseHead title={title} description={description} />
+		<style>
+			main {
+				width: calc(100% - 2em);
+				max-width: 100%;
+				margin: 0;
+			}
+			.hero-image {
+				width: 100%;
+			}
+			.hero-image img {
+				display: block;
+				margin: 0 auto;
+				border-radius: 0;
+				box-shadow: var(--box-shadow);
+			}
+			.prose {
+				width: 760px;
+				max-width: calc(100% - 2em);
+				margin: auto;
+				padding: 3.5em 1em 1em;
+				color: rgb(var(--gray-dark));
+			}
+			.title {
+				margin-bottom: 3em;
+				padding: 0;
+				text-align: left;
+				line-height: 1;
+			}
+			.title h1 {
+				margin: 0.25em 0 0.5em;
+				font-size: clamp(2.6rem, 7vw, 5rem);
+				letter-spacing: -0.055em;
+			}
+			.date {
+				margin-bottom: 0.5em;
+				color: rgb(var(--gray));
+				font-size: 0.85rem;
+			}
+			.last-updated-on {
+				font-style: italic;
+			}
+			.prose :global(img) {
+				margin: 2.5rem 0 0.5rem;
+				border-radius: 16px;
+				box-shadow: 0 14px 40px rgba(19, 28, 55, 0.12);
+				cursor: zoom-in;
+			}
+			.prose :global(img:focus-visible) {
+				outline: 3px solid var(--accent);
+				outline-offset: 4px;
+			}
+			dialog {
+				width: min(1200px, calc(100% - 2rem));
+				max-width: none;
+				padding: 3rem 1rem 1rem;
+				border: 0;
+				border-radius: 18px;
+				background: #0b1020;
+			}
+			dialog::backdrop {
+				background: rgba(3, 7, 18, 0.82);
+				backdrop-filter: blur(8px);
+			}
+			dialog img {
+				display: block;
+				max-width: 100%;
+				max-height: 82vh;
+				margin: auto;
+				object-fit: contain;
+			}
+			.close-lightbox {
+				position: absolute;
+				top: 0.65rem;
+				right: 0.75rem;
+				padding: 0.4rem 0.7rem;
+				border: 1px solid rgba(255, 255, 255, 0.3);
+				border-radius: 999px;
+				background: transparent;
+				color: white;
+				cursor: pointer;
+			}
+		</style>
+	</head>
+
+	<body>
+		<Header />
+		<main>
+			<article>
+				<div class="hero-image">
+					{heroImage && <Image width={1020} height={510} src={heroImage} alt="" />}
+				</div>
+				<div class="prose">
+					<div class="title">
+						<div class="date">
+							<FormattedDate date={pubDate} />
+							{
+								updatedDate && (
+									<div class="last-updated-on">
+									更新于 <FormattedDate date={updatedDate} />
+									</div>
+								)
+							}
+						</div>
+						<h1>{title}</h1>
+						<hr />
+					</div>
+					<slot />
+				</div>
+			</article>
+		</main>
+		<dialog id="image-lightbox">
+			<button class="close-lightbox" type="button" aria-label="关闭图片预览">关闭</button>
+			<img src="" alt="" />
+		</dialog>
+		<Footer />
+		<script>
+			const dialog = document.querySelector<HTMLDialogElement>('#image-lightbox');
+			const preview = dialog?.querySelector<HTMLImageElement>('img');
+			const closeButton = dialog?.querySelector<HTMLButtonElement>('.close-lightbox');
+
+			const openImage = (image: HTMLImageElement) => {
+				if (!dialog || !preview) return;
+				preview.src = image.currentSrc || image.src;
+				preview.alt = image.alt;
+				dialog.showModal();
+			};
+
+			document.querySelectorAll<HTMLImageElement>('.prose img').forEach((image) => {
+				image.tabIndex = 0;
+				image.setAttribute('role', 'button');
+				image.setAttribute('aria-label', `${image.alt || '文章图片'}，点击放大`);
+				image.addEventListener('click', () => openImage(image));
+				image.addEventListener('keydown', (event) => {
+					if (event.key === 'Enter' || event.key === ' ') {
+						event.preventDefault();
+						openImage(image);
+					}
+				});
+			});
+
+			closeButton?.addEventListener('click', () => dialog?.close());
+			dialog?.addEventListener('click', (event) => {
+				if (event.target === dialog) dialog.close();
+			});
+		</script>
+	</body>
+</html>

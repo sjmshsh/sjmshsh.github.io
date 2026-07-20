@@ -1,0 +1,71 @@
+---
+import { SITE_TITLE } from '../consts';
+import HeaderLink from './HeaderLink.astro';
+---
+
+<header>
+	<nav aria-label="主导航">
+		<a class="brand" href="/">{SITE_TITLE}</a>
+		<div class="links">
+			<HeaderLink href="/">首页</HeaderLink>
+			<HeaderLink href="/blog">文章</HeaderLink>
+			<HeaderLink href="/about">关于</HeaderLink>
+			<a href="/rss.xml">RSS</a>
+		</div>
+	</nav>
+</header>
+
+<style>
+	header {
+		position: sticky;
+		top: 0;
+		z-index: 20;
+		border-bottom: 1px solid rgba(var(--gray-light), 0.85);
+		background: rgba(250, 251, 255, 0.86);
+		backdrop-filter: blur(18px);
+	}
+	nav {
+		display: flex;
+		align-items: center;
+		justify-content: space-between;
+		width: min(1120px, calc(100% - 2rem));
+		margin: 0 auto;
+	}
+	.brand {
+		color: rgb(var(--black));
+		font-size: 1rem;
+		font-weight: 700;
+		letter-spacing: -0.02em;
+		text-decoration: none;
+	}
+	.links {
+		display: flex;
+		align-items: center;
+		gap: 0.2rem;
+	}
+	.links :global(a) {
+		padding: 1rem 0.65rem;
+		border-bottom: 2px solid transparent;
+		color: rgb(var(--gray-dark));
+		font-size: 0.88rem;
+		text-decoration: none;
+	}
+	.links :global(a:hover),
+	.links :global(a.active) {
+		border-bottom-color: var(--accent);
+		color: var(--accent);
+	}
+	@media (max-width: 540px) {
+		.brand {
+			max-width: 8rem;
+			font-size: 0.88rem;
+		}
+		.links :global(a) {
+			padding-inline: 0.42rem;
+			font-size: 0.8rem;
+		}
+		.links :global(a:last-child) {
+			display: none;
+		}
+	}
+</style>

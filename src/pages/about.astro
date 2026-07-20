@@ -1,0 +1,76 @@
+---
+import { Image } from 'astro:assets';
+import AboutHeroImage from '../assets/blog-placeholder-about.jpg';
+import BaseHead from '../components/BaseHead.astro';
+import Footer from '../components/Footer.astro';
+import Header from '../components/Header.astro';
+import { SITE_TITLE } from '../consts';
+---
+
+<!doctype html>
+<html lang="zh-CN">
+	<head>
+		<BaseHead title={`关于 · ${SITE_TITLE}`} description="关于 Sunny 的技术笔记。" />
+	</head>
+	<body>
+		<Header />
+		<main class="about">
+			<div class="about-copy">
+				<p class="eyebrow">ABOUT</p>
+				<h1>关于这里</h1>
+				<p>
+					这是一个持续生长的个人知识库。我会把工作中遇到的问题、读过的论文、做过的实验，整理成可以被再次使用的文章。
+				</p>
+				<p>
+					内容会以 AI 基础设施和工程实践为主，也会保留一些关于学习、工具与效率的思考。
+				</p>
+				<a href="/blog">开始阅读 →</a>
+			</div>
+			<Image src={AboutHeroImage} width={960} height={480} alt="带有渐变边框的微笑图形" />
+		</main>
+		<Footer />
+	</body>
+</html>
+
+<style>
+	.about {
+		display: grid;
+		grid-template-columns: 1fr 0.95fr;
+		align-items: center;
+		gap: clamp(2rem, 6vw, 6rem);
+		width: min(1120px, calc(100% - 2rem));
+		max-width: none;
+		min-height: 70vh;
+	}
+	.eyebrow {
+		margin: 0;
+		color: var(--accent);
+		font-size: 0.76rem;
+		font-weight: 700;
+		letter-spacing: 0.18em;
+	}
+	h1 {
+		margin-top: 0.3rem;
+		font-size: clamp(3rem, 7vw, 5.5rem);
+		letter-spacing: -0.06em;
+	}
+	.about-copy > p:not(.eyebrow) {
+		color: rgb(var(--gray-dark));
+		font-size: 1.05rem;
+	}
+	.about-copy a {
+		display: inline-block;
+		margin-top: 1rem;
+		font-weight: 700;
+		text-decoration: none;
+	}
+	.about :global(img) {
+		box-shadow: var(--box-shadow);
+	}
+	@media (max-width: 760px) {
+		.about {
+			grid-template-columns: 1fr;
+			padding-top: 3rem;
+		}
+	}
+</style>
