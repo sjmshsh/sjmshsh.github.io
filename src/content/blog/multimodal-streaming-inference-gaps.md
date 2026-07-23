@@ -3,6 +3,7 @@ title: '多模态流式推理还缺什么？'
 description: '从 LPM 1.0 出发，讨论实时多模态推理在 KV Cache、时间线调度、增量预计算、打断恢复与多 Session 公平性上的系统缺口。'
 pubDate: '2026-07-21'
 heroImage: './multimodal-streaming-inference-gaps/lpm-dual-audio-cross-attention.png'
+pinned: true
 ---
 
 这篇文章讨论的是：类似 Qwen3-Omni 以及一系列 Omni 和 LPM 1.0 这种支持实时流式输出的模型，传统的多模态输出（如图片生成、视频生成模型等）并不在考虑之中。

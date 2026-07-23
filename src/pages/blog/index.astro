@@ -8,7 +8,9 @@ import Header from '../../components/Header.astro';
 import { SITE_DESCRIPTION, SITE_TITLE } from '../../consts';
 
 const posts = (await getCollection('blog')).sort(
-	(a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf(),
+	(a, b) =>
+		Number(b.data.pinned) - Number(a.data.pinned) ||
+		b.data.pubDate.valueOf() - a.data.pubDate.valueOf(),
 );
 ---
 
@@ -34,6 +36,7 @@ const posts = (await getCollection('blog')).sort(
 									<Image width={960} height={480} src={post.data.heroImage} alt="文章封面" />
 								)}
 								<div class="post-copy">
+									{post.data.pinned && <strong class="pinned-badge">置顶文章</strong>}
 									<p><FormattedDate date={post.data.pubDate} /></p>
 									<h2>{post.data.title}</h2>
 									<span>{post.data.description}</span>
@@ -112,6 +115,16 @@ const posts = (await getCollection('blog')).sort(
 		margin: 0;
 		color: rgb(var(--gray));
 		font-size: 0.88rem;
+	}
+	.pinned-badge {
+		align-self: flex-start;
+		margin-bottom: 0.75rem;
+		padding: 0.2rem 0.65rem;
+		border-radius: 999px;
+		background: rgba(49, 84, 232, 0.1);
+		color: var(--accent);
+		font-size: 0.75rem;
+		letter-spacing: 0.08em;
 	}
 	.post-copy h2 {
 		margin: 0.8rem 0;

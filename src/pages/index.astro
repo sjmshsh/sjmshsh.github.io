@@ -8,9 +8,11 @@ import Header from '../components/Header.astro';
 import { SITE_DESCRIPTION, SITE_TITLE } from '../consts';
 
 const posts = (await getCollection('blog')).sort(
-	(a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf(),
+	(a, b) =>
+		Number(b.data.pinned) - Number(a.data.pinned) ||
+		b.data.pubDate.valueOf() - a.data.pubDate.valueOf(),
 );
-const latestPost = posts[0];
+const pinnedPost = posts.find((post) => post.data.pinned) ?? posts[0];
 ---
 
 <!doctype html>
@@ -21,6 +23,36 @@ const latestPost = posts[0];
 	<body>
 		<Header />
 		<main class="home">
+			{
+				pinnedPost && (
+					<section class="pinned" aria-labelledby="pinned-heading">
+						<div class="section-heading">
+							<div>
+								<p class="eyebrow">PINNED ARTICLE</p>
+								<h2 id="pinned-heading">置顶文章</h2>
+							</div>
+							<a href="/blog">查看全部 →</a>
+						</div>
+						<a class="article-card" href={`/blog/${pinnedPost.id}/`}>
+							{pinnedPost.data.heroImage && (
+								<Image
+									src={pinnedPost.data.heroImage}
+									width={960}
+									height={480}
+									alt="文章封面"
+								/>
+							)}
+							<div class="article-copy">
+								<p class="article-date"><FormattedDate date={pinnedPost.data.pubDate} /></p>
+								<h3>{pinnedPost.data.title}</h3>
+								<p>{pinnedPost.data.description}</p>
+								<span>阅读全文 →</span>
+							</div>
+						</a>
+					</section>
+				)
+			}
+
 			<section class="hero">
 				<p class="eyebrow">THINK · BUILD · SHARE</p>
 				<h1>朝花夕拾</h1>
@@ -32,36 +64,6 @@ const latestPost = posts[0];
 					<a class="secondary" href="/about">关于本站</a>
 				</div>
 			</section>
-
-			{
-				latestPost && (
-					<section class="latest" aria-labelledby="latest-heading">
-						<div class="section-heading">
-							<div>
-								<p class="eyebrow">LATEST NOTE</p>
-								<h2 id="latest-heading">最新文章</h2>
-							</div>
-							<a href="/blog">查看全部 →</a>
-						</div>
-						<a class="article-card" href={`/blog/${latestPost.id}/`}>
-							{latestPost.data.heroImage && (
-								<Image
-									src={latestPost.data.heroImage}
-									width={960}
-									height={480}
-									alt="文章封面"
-								/>
-							)}
-							<div class="article-copy">
-								<p class="article-date"><FormattedDate date={latestPost.data.pubDate} /></p>
-								<h3>{latestPost.data.title}</h3>
-								<p>{latestPost.data.description}</p>
-								<span>阅读全文 →</span>
-							</div>
-						</a>
-					</section>
-				)
-			}
 		</main>
 		<Footer />
 	</body>
@@ -75,7 +77,7 @@ const latestPost = posts[0];
 	}
 	.hero {
 		max-width: 900px;
-		padding: 3rem 0 7rem;
+		padding: 4rem 0 7rem;
 	}
 	.eyebrow {
 		margin: 0 0 1rem;
@@ -122,8 +124,8 @@ const latestPost = posts[0];
 		border: 1px solid rgb(var(--gray-light));
 		color: rgb(var(--black));
 	}
-	.latest {
-		padding: 0 0 4rem;
+	.pinned {
+		padding: 0;
 	}
 	.section-heading {
 		display: flex;
@@ -191,7 +193,7 @@ const latestPost = posts[0];
 			padding-top: 2.5rem;
 		}
 		.hero {
-			padding: 2rem 0 4.5rem;
+			padding: 3.5rem 0 4.5rem;
 		}
 		.article-card {
 			grid-template-columns: 1fr;
