@@ -23,6 +23,18 @@ const pinnedPost = posts.find((post) => post.data.pinned) ?? posts[0];
 	<body>
 		<Header />
 		<main class="home">
+			<section class="hero">
+				<p class="eyebrow">THINK · BUILD · SHARE</p>
+				<h1>朝花夕拾</h1>
+				<p class="intro">
+					你好，我是 sjmshsh。这里记录 AI 基础设施、工程实践，以及那些值得反复回看的学习过程。
+				</p>
+				<div class="actions">
+					<a class="primary" href="/blog">阅读文章</a>
+					<a class="secondary" href="/about">关于本站</a>
+				</div>
+			</section>
+
 			{
 				pinnedPost && (
 					<section class="pinned" aria-labelledby="pinned-heading">
@@ -52,18 +64,6 @@ const pinnedPost = posts.find((post) => post.data.pinned) ?? posts[0];
 					</section>
 				)
 			}
-
-			<section class="hero">
-				<p class="eyebrow">THINK · BUILD · SHARE</p>
-				<h1>朝花夕拾</h1>
-				<p class="intro">
-					你好，我是 sjmshsh。这里记录 AI 基础设施、工程实践，以及那些值得反复回看的学习过程。
-				</p>
-				<div class="actions">
-					<a class="primary" href="/blog">阅读文章</a>
-					<a class="secondary" href="/about">关于本站</a>
-				</div>
-			</section>
 		</main>
 		<Footer />
 	</body>
